@@ -1,304 +1,425 @@
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <style>
+    /* Font */
+    @import url('https://fonts.googleapis.com/css?family=Zen+Kaku+Gothic+New:400,500');
+
+    /* Design */
     *,
-    *::after,
-    *::before {
-      margin: 0;
-      padding: 0;
-      box-sizing: inherit;
-    }
-
-    html {
-      font-size: 62.5%;
-    }
-
-    body {
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
-    .btn:link, .btn:visited {
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 1.5rem 4rem;
-      display: inline-block;
-      border-radius: 10rem;
-      transition: all 0.2s;
-      position: relative;
-      font-size: 1.6rem;
-    }
-    .btn--animated {
-      animation: moveInBottom 0.5s ease-out 0.75s;
-      animation-fill-mode: backwards;
-    }
-    .btn:hover {
-      transform: translateY(-0.3rem);
-      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-    }
-    .btn:hover::after {
-      transform: scaleX(1.4) scaleY(1.6);
-      opacity: 0;
-    }
-    .btn:active {
-      transform: translateY(-0.1rem);
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-    }
-    .btn--white {
-      background-color: #fff;
-      color: #777;
-    }
-    .btn--white::after {
-      background-color: #fff;
-    }
-    .btn--green {
-      background-color: #55c57a;
-      color: #fff;
-    }
-    .btn--green::after {
-      background-color: #55c57a;
-    }
-    .btn::after {
-      content: "";
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      border-radius: 10rem;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      transition: all 0.4s;
+    html {
+      background-color: #ecf9ff;
     }
 
     body {
-      font-family: "Lato", sans-serif;
+      color: #272727;
+      font-family: 'Zen Kaku Gothic New', serif;
+      font-style: normal;
       font-weight: 400;
-      /* font-size: 16px; */
-      line-height: 1.7;
-      color: #777;
-      padding: 3rem;
+      letter-spacing: 0;
+      padding: 1rem;
+    }
+
+    .main{
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+    }
+
+    img {
+      height: auto;
+      max-width: 100%;
+      vertical-align: middle;
+    }
+
+    .btn {
+      color: #ffffff;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      font-family: 'Zen Kaku Gothic New', serif;
+      text-transform: uppercase;
+      border-radius: 4px;
+      font-weight: 400;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+    }
+
+    .btn:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    a.btn {
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .cards {
+      color: #ffffff;
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cards_item {
+      display: flex;
+      padding: 1rem;
+      height: fit-content;
+    }
+
+    @media (min-width: 800px) {
+      .cards_item {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .cards_item {
+        width: 50%;
+      }
+    }
+
+    @media (min-width: 1300px) {
+      .cards_item {
+        width: 33.333%;
+      }
     }
 
     .card {
-      perspective: 150rem;
-      -moz-perspective: 150rem;
-      height: 52rem;
-      position: relative;
+      background-color: white;
+      border-radius: 0.25rem;
+      box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
-    .card__side {
-      font-size: 2rem;
-      height: 52rem;
-      transition: all 0.8s ease;
+
+    .card_content {
+      padding: 1rem;
+      background: linear-gradient(to bottom left, #d35164 40%, #fca46e 100%);
+      opacity: 1;
+      transition: height 0ms 0ms, opacity 600ms 0ms;
+    }
+
+    .card_title {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: capitalize;
+      margin: 0px;
+    }
+
+    .card_text {
+      color: #ffffff;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      font-weight: 400;
+    }
+    .card_content.hidden {
+      overflow: hidden;  /* Hide the element content, while height = 0 */
+      height: 0;
+      opacity: 0;
+      padding: 0;
+      transition: height 0ms 400ms, opacity 400ms 0ms;
+    }
+
+    /* Pie */
+    @-webkit-keyframes bake-pie {
+      from {
+        transform: rotate(0deg) translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes bake-pie {
+      from {
+        transform: rotate(0deg) translate3d(0, 0, 0);
+      }
+    }
+
+    .pie-chart--wrapper {
+      width: 400px;
+      margin: 30px auto;
+      text-align: center;
+    }
+    .pie-chart__pie, .pie-chart__legend {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .pie-chart__pie {
+      position: relative;
+      height: 300px;
+      width: 300px;
+      margin: 10px auto 35px;
+    }
+
+    .pie-chart__pie::before {
+      content: "";
+      display: block;
+      position: absolute;
+      z-index: 1;
+      width: 200px;
+      height: 200px;
+      background: #ecf9ff;
+      border-radius: 50%;
+      top: 50px;
+      left: 50px;
+    }
+
+    .slice {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      clip: rect(0px, 300px, 300px, 150px);
+      -webkit-animation: bake-pie 1s;
+              animation: bake-pie 1s;
+    }
+    .slice span {
+      display: block;
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      backface-visibility: hidden;
-      border-radius: 0.3rem;
-      overflow: hidden;
-      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
-    }
-    .card__side--back {
-      transform: rotateY(180deg);
-    }
-    .card__side--back-1 {
-      background-image: linear-gradient(to right bottom, #ffb900, #ff8848);
-    }
-    .card__side--back-2 {
-      background-image: linear-gradient(to right bottom, #399cf9, #669ff6);
+      background-color: black;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      clip: rect(0px, 300px, 300px, 150px);
     }
 
-    .card:hover .card__side--front {
-      transform: rotateY(-180deg);
-    }
-    .card:hover .card__side--back {
-      transform: rotateY(0);
-    }
-    .card:active .card__side--front {
-      transform: rotateY(-180deg);
-    }
-    .card:active .card__side--back {
-      transform: rotateY(0);
-    }
-    .card__picture {
-      position: relative;
-      background-size: cover;
-      height: 23rem;
-      -webkit-clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-      clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-    }
-    .card__picture--1 {
-      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url("./bike.jpg");
-      background-blend-mode: screen;
-    }
-    .card__picture--2 {
-      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url("./mountain.jpg");
-      background-blend-mode: screen;
-    }
-    .card__heading {
-      position: absolute;
-      top: 12rem;
-      right: 2rem;
-      text-align: right;
-      font-size: 2.8rem;
-      font-weight: 300;
-      text-transform: uppercase;
-      color: #fff;
-      width: 70%;
-    }
-    .card__heading-span {
-      padding: 1rem 1.5rem;
-      -webkit-box-decoration-break: clone;
-      box-decoration-break: clone;
-    }
-    .card__heading-span--1 {
-      background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0.85), rgba(255, 119, 48, 0.85));
-    }
-    .card__heading-span--2 {
-      background-image: linear-gradient(to right bottom, rgba(41, 152, 255, 0.85), rgba(86, 67, 250, 0.85));
-    }
-
-    .card__details {
-      padding: 3rem;
-    }
-    .card__details ul {
-      list-style: none;
-      width: 80%;
+    .pie-chart__legend {
+      display: block;
+      list-style-type: none;
+      padding: 0;
       margin: 0 auto;
+      font-size: 1rem;
+      text-align: left;
+      width: 65%;
     }
-    .card__details ul li {
-      text-align: center;
-      font-size: 1.5rem;
-      padding: 1rem;
+    .pie-chart__legend li {
+      height: 1.25em;
+      margin-bottom: 0.7em;
+      padding-left: 0.5em;
+      border-left: 1.25em solid black;
     }
-    .card__details ul li:not(:last-child) {
-      border-bottom: 1px solid #eee;
+    .pie-chart__legend em {
+      font-style: normal;
     }
-    .card__cta {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      text-align: center;
-    }
-    .card__price-box {
-      color: #fff;
-      margin-bottom: 8rem;
-    }
-    .card__price-only {
-      font-size: 1.4rem;
-      text-transform: uppercase;
-    }
-    .card__price-value {
-      font-size: 6rem;
-      font-weight: 100;
+    .pie-chart__legend span {
+      float: right;
     }
 
-    .row {
-      max-width: 114rem;
-      margin: 0 auto;
+    .pie-charts {
+      display: flex;
+      flex-direction: row;
     }
-    .row:not(:last-child) {
-      margin-bottom: 8rem;
-    }
-    .row::after {
-      content: "";
-      clear: both;
-      display: table;
-    }
-    .row [class^=col-] {
-      float: left;
-    }
-    .row [class^=col-]:not(:last-child) {
-      margin-right: 6rem;
-    }
-    .row .col-1-of-2 {
-      width: calc((100% - 6rem) / 2);
-    }
-    .row .col-1-of-3 {
-      width: calc((100% - (6rem * 2)) / 3);
-    }
-    .row .col-2-of-3 {
-      width: calc( 			2 * ((100% - (6rem * 2)) / 3) + 6rem 		);
-    }
-    .row .col-1-of-4 {
-      width: calc((100% - (6rem * 3)) / 4);
-    }
-    .row .col-2-of-4 {
-      width: calc( 			2 * ((100% - (6rem * 3)) / 4) + 6rem 		);
-    }
-    .row .col-3-of-4 {
-      width: calc( 			3 * ((100% - (6rem * 3)) / 4) + (2 * 6rem) 		);
+    @media (max-width: 500px) {
+      .pie-charts {
+        flex-direction: column;
+      }
     }
   </style>
+  <script>
+    function showPrice(cssClass) {
+      let allCards = document.getElementsByClassName('card_content ' + cssClass);
+      let price = document.getElementsByClassName('card_content price ' + cssClass)[0];
+      Array.from(allCards).forEach(card => {
+        if (card.classList.contains('price')) return;
+        card.classList.add('hidden');
+      });
+
+      createPie('.pieID--' + cssClass);
+      price.classList.remove('hidden');
+		}
+
+    function reset(cssClass) {
+      let allCards = document.getElementsByClassName('card_content ' + cssClass);
+
+			Array.from(allCards).forEach(card => {
+        card.classList.remove('hidden');
+
+        if (card.classList.contains('price')) card.classList.add('hidden');
+        if (card.classList.contains('safety')) card.classList.add('hidden');
+        if (card.classList.contains('timeline')) card.classList.add('hidden');
+      });
+    }
+
+    // Pie chart
+    function sliceSize(dataNum, dataTotal) {
+      return (dataNum / dataTotal) * 360;
+    }
+
+    function addSlice(id, sliceSize, pieElement, offset, sliceID, color) {
+      $(pieElement).append("<div class='slice "+ sliceID + "'><span></span></div>");
+      var offset = offset - 1;
+      var sizeRotation = -179 + sliceSize;
+
+      $(id + " ." + sliceID).css({
+        "transform": "rotate(" + offset + "deg) translate3d(0,0,0)"
+      });
+
+      $(id + " ." + sliceID + " span").css({
+        "transform"       : "rotate(" + sizeRotation + "deg) translate3d(0,0,0)",
+        "background-color": color
+      });
+    }
+
+    function iterateSlices(id, sliceSize, pieElement, offset, dataCount, sliceCount, color) {
+      var
+        maxSize = 179,
+        sliceID = "s" + dataCount + "-" + sliceCount;
+
+      if( sliceSize <= maxSize ) {
+        addSlice(id, sliceSize, pieElement, offset, sliceID, color);
+      } else {
+        addSlice(id, maxSize, pieElement, offset, sliceID, color);
+        iterateSlices(id, sliceSize-maxSize, pieElement, offset+maxSize, dataCount, sliceCount+1, color);
+      }
+    }
+
+    function createPie(id) {
+      var
+        listData      = [],
+        listTotal     = 0,
+        offset        = 0,
+        i             = 0,
+        pieElement    = id + " .pie-chart__pie"
+        dataElement   = id + " .pie-chart__legend"
+
+        color         = [
+          "#CCAFC3",
+          "#ADA2C0",
+          "#B7D4DA",
+          "#9DBF9C",
+          "#DFD4AE",
+          "#DFB2AB",
+          "#A9ACC6",
+          "#9F4778"
+        ];
+
+      // color = shuffle( color );
+
+      $(dataElement+" span").each(function() {
+        console.log($(this).html())
+        listData.push(Number($(this).html()));
+      });
+
+      for(i = 0; i < listData.length; i++) {
+        listTotal += listData[i];
+      }
+
+      for(i=0; i < listData.length; i++) {
+        var size = sliceSize(listData[i], listTotal);
+        iterateSlices(id, size, pieElement, offset, i, 0, color[i]);
+        $(dataElement + " li:nth-child(" + (i + 1) + ")").css("border-color", color[i]);
+        offset += size;
+      }
+    }
+
+    // function shuffle(a) {
+    //     var j, x, i;
+    //     for (i = a.length; i; i--) {
+    //         j = Math.floor(Math.random() * i);
+    //         x = a[i - 1];
+    //         a[i - 1] = a[j];
+    //         a[j] = x;
+    //     }
+
+    //     return a;
+    // }
+
+    // function createPieCharts() {
+    //   createPie('.pieID--micro-skills');
+    // }
+
+    // createPieCharts();
+
+  </script>
 </head>
 <body>
-  <div class="row">
-    <div class="col-1-of-2">
-        <div class="card">
-            <div class="card__side card__side--front card__side--front-1">
-                <div class="card__picture card__picture--1">
-                    &nbsp;
-                </div>
-                <h4 class="card__heading card__heading--1">
-                    <span class="card__heading-span card__heading-span--1">
-                        宜花東五天四夜
-                    </span>
-                </h4>
-                <div class="card__details card__details--1">
-                    <ul>
-                        <li>3 day tour</li>
-                        <li>Up to 30 people</li>
-                        <li>2 tour guides</li>
-                        <li>Sleep in cozy hotels</li>
-                        <li>Difficulty: easy</li>
-                    </ul>
-                </div>
+  <div class="main">
+    <h1>楓香班第四屆壯遊</h1>
+    <ul class="cards">
+      <li class="cards_item">
+        <div class="card bike">
+          <div class="card_image"><img src="./bike.jpg"></div>
+          <div class="card_content bike">
+            <h2 class="card_title">宜花東五天四夜 3/25(一)-3/29(五)</h2>
+            <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+            <button class="btn card_btn" onclick="showPrice('bike')">費用</button>
+            <button class="btn card_btn" onclick="showSafety('bike')">安全性評估</button>
+            <button class="btn card_btn" onclick="showTimeline('bike')">訓練時程</button>
+          </div>
+          <div class="card_content price bike hidden">
+            <div class="pieID--bike pie-chart--wrapper">
+              <h3>費用支出（以孩子49位計算）</h3>
+              <div class="pie-chart">
+                <div class="pie-chart__pie"></div>
+                <ul class="pie-chart__legend">
+                  <li><em>住宿(預估)</em><span>196000</span></li>
+                  <li><em>餐食(預估)</em><span>98000</span></li>
+                  <li><em>單車租借</em><span>68600</span></li>
+                  <li><em>車票(預估)</em><span>32193</span></li>
+                  <li><em>單車人員</em><span>24000</span></li>
+                  <li><em>保母車(貨車)</em><span>21000</span></li>
+                  <li><em>補給品(預估)</em><span>9800</span></li>
+                  <li><em>旅平險</em><span>8575</span></li>
+                </ul>
+              </div>
+              <p class="card_text">總計：<em>458168</em> 元</p>
+              <p class="card_text">平均每人：<em>9351</em> 元（小數點無條件進位）</p>
+              <a class="btn card_btn" href="https://drive.google.com/file/d/1UAWEzoF34GsTsrVRTgZ6D-l8HOaEonab/view" target="_blank">詳細費用明細</a>
+              <button class="btn card_btn" onclick="reset('bike')">←</button>
             </div>
-            <div class="card__side card__side--back card__side--back-1">
-                <div class="card__cta">
-                    <div class="card__price-box">
-                        <p class="card__price-only">Only</p>
-                        <p class="card__price-value">$297</p>
-                    </div>
-                    <a href="#" class="btn btn--white">Book now!</a>
-                </div>
-            </div>
+          </div>
         </div>
-    </div>
-    <div class="col-1-of-2">
+      </li>
+      <li class="cards_item">
         <div class="card">
-            <div class="card__side card__side--front card__side--front-2">
-                    <div class="card__picture card__picture--2">
-                            &nbsp;
-                        </div>
-                        <h4 class="card__heading card__heading--2">
-                            <span class="card__heading-span card__heading-span--2">
-                                合歡山四天三夜
-                            </span>
-                        </h4>
-                        <div class="card__details card__details--2">
-                            <ul>
-                                <li>7 day tour</li>
-                                <li>Up to 40 people</li>
-                                <li>6 tour guides</li>
-                                <li>Sleep in provided tents</li>
-                                <li>Difficulty: medium</li>
-                            </ul>
-                        </div>
-            </div>
-            <div class="card__side card__side--back card__side--back-2">
-                    <div class="card__cta">
-                        <div class="card__price-box">
-                            <p class="card__price-only">Only</p>
-                            <p class="card__price-value">$497</p>
-                        </div>
-                        <a href="#" class="btn btn--white">Book now!</a>
-                    </div>
-            </div>
+          <div class="card_image"><img src="./mountain.jpg"></div>
+          <div class="card_content mountain">
+            <h2 class="card_title">合歡山四天三夜 5/28(二)-5/31(五)</h2>
+            <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+            <button class="btn card_btn" onclick="showPrice('mountain')">費用</button>
+            <button class="btn card_btn" onclick="showSafety('mountain')">安全性評估</button>
+            <button class="btn card_btn" onclick="showTimeline('mountain')">訓練時程</button>
+          </div>
+          <div class="card_content price mountain hidden" onclick="reset('mountain')">
+            <p class="card_text">Test</p>
+          </div>
         </div>
-    </div>
+      </li>
+      <li class="cards_item">
+        <div class="card">
+          <div class="card_image"><img src="./Q.jpg"></div>
+          <div class="card_content">
+            <h2 class="card_title">我有疑問</h2>
+            <p class="card_text">Demo of pixel perfect pure CSS simple responsive card grid layout</p>
+            <a class="btn card_btn" href="https://app.sli.do/event/9ML3cArt7BCES46jm1Cw3T/live/questions" target="_blank">Slido</a>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </body>
 </html>
