@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=500,initial-scale=1">
+  <meta name="viewport" content="width=470,initial-scale=1">
   <title>和平實小第四屆壯遊規劃</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -124,6 +124,10 @@
       background: linear-gradient(to bottom left, #d35164 40%, #fca46e 100%);
       opacity: 1;
       transition: height 0ms 0ms, opacity 600ms 0ms;
+    }
+
+    .card_content h2 {
+      padding-bottom: 0.3rem;
     }
 
     .card_title {
@@ -265,10 +269,12 @@
 
     ul.no-dec li {
       list-style: none;
+      margin: 0;
     }
 
     ul.list {
       padding: 0 1rem;
+      padding-bottom: 1rem;
     }
 
     .timeline ul.list li {
@@ -450,6 +456,7 @@
             <button class="btn card_btn" onclick="reset('bike')">←</button>
           </div>
           <div class="card_content timeline bike hidden">
+            <h2 class="card_title">訓練時程</h2>
             <ul class="list">
               <li class="card_text"><b>每週四</b> 側門空地、和平外圍單車練習 </li>
               <li class="card_text"><b>12/14(四)</b> 單車河濱練騎1 (公館-大稻埕)</li>
@@ -518,6 +525,7 @@
             <button class="btn card_btn" onclick="reset('mountain')">←</button>
           </div>
           <div class="card_content timeline mountain hidden">
+            <h2 class="card_title">訓練時程</h2>
             <ul class="list">
               <li class="card_text"><b>每週一</b> 和平跑道慢跑 </li>
               <li class="card_text"><b>每週二</b> 和平外圍路跑 </li>
