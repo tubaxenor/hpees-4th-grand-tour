@@ -1,6 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>和平實小第四屆壯遊規劃</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -91,19 +92,25 @@
       height: fit-content;
     }
 
-    @media (max-width: 768px) {
+    @media only screen and (min-device-width:320px) and (max-device-width: 850px) and (-webkit-device-pixel-ratio: 3) and (-webkit-device-pixel-ratio: 2) {
       .cards_item {
         width: 100%;
       }
     }
 
-    @media (min-width: 980px) {
+    @media only screen and (mix-width: 800px) {
+      .cards_item {
+        width: 100%;
+      }
+    }
+
+    @media only screen and (min-width: 1280px) {
       .cards_item {
         width: 50%;
       }
     }
 
-    @media (min-width: 1200px) {
+    @media only screen and (min-width: 1600px) {
       .cards_item {
         width: 33.333%;
       }
@@ -471,7 +478,7 @@
         <div class="card">
           <div class="card_image"><img src="./mountain.jpg"></div>
           <div class="card_content mountain">
-            <h2 class="card_title">合歡山四峰四天三夜壯遊登山 5/28(二)-5/31(五)</h2>
+            <h2 class="card_title">合歡山四峰四天三夜 5/28(二)-5/31(五)</h2>
             <p class="card_text center">石門山、合歡東峰、合歡主峰、合歡北峰</p>
             <button class="btn card_btn" onclick="showPrice('mountain')">費用</button>
             <button class="btn card_btn" onclick="showSafety('mountain')">安全性評估</button>
