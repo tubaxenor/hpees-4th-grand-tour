@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=470,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>和平實小第四屆壯遊規劃</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -43,7 +43,6 @@
     h2 {
       font-size: 1.25rem;
       text-align: center;
-      text-decoration: solid underline;
     }
 
     img {
@@ -92,9 +91,13 @@
       height: fit-content;
     }
 
-    @media (mix-width: 800px) {
+    @media (max-width: 800px) {
       .cards_item {
         width: 100%;
+        padding: 1rem 0;
+      }
+      body {
+        padding: 0;
       }
     }
 
@@ -147,7 +150,6 @@
       font-weight: 400;
     }
     .card_text strong {
-      text-decoration: underline;
       font-size: 1.1rem;
     }
     .card_text b {
@@ -255,6 +257,76 @@
     @media (max-width: 500px) {
       .pie-charts {
         flex-direction: column;
+      }
+      .pie-chart--wrapper {
+        width: auto;
+        margin: 30px auto;
+        text-align: center;
+      }
+      .pie-chart__pie, .pie-chart__legend {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .pie-chart__pie {
+        position: relative;
+        height: 200px;
+        width: 200px;
+        margin: 10px auto 35px;
+      }
+
+      .pie-chart__pie::before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        background: #ecf9ff;
+        border-radius: 50%;
+        top: 25px;
+        left: 25px;
+      }
+
+      .slice {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        clip: rect(0px, 200px, 200px, 100px);
+        -webkit-animation: bake-pie 1s;
+                animation: bake-pie 1s;
+      }
+      .slice span {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: black;
+        width: 200;
+        height: 200px;
+        border-radius: 50%;
+        clip: rect(0px, 200px, 200px, 100px);
+      }
+
+      .pie-chart__legend {
+        display: block;
+        list-style-type: none;
+        padding: 0;
+        margin: 0 auto;
+        font-size: 1rem;
+        text-align: left;
+        width: 65%;
+      }
+      .pie-chart__legend li {
+        height: 1.25em;
+        margin-bottom: 0.7em;
+        padding-left: 0.5em;
+        border-left: 1.25em solid black;
+      }
+      .pie-chart__legend em {
+        font-style: normal;
+      }
+      .pie-chart__legend span {
+        float: right;
       }
     }
 
@@ -437,7 +509,7 @@
               <p class="card_text">＊兩項壯遊加總每人：<strong>23,257</strong> 元＊</p>
             </div>
             <a class="btn card_btn" href="https://drive.google.com/file/d/1UAWEzoF34GsTsrVRTgZ6D-l8HOaEonab/view" target="_blank">詳細費用明細</a>
-            <button class="btn card_btn" onclick="reset('bike')">←</button>
+            <button class="btn card_btn" onclick="reset('bike')">← Back</button>
           </div>
           <div class="card_content safety bike hidden">
             <h2 class="card_title">降低風險之行程安排</h2>
@@ -453,7 +525,7 @@
               <li class="card_text">騎乘時有單車指導員（教師）沿路關照學生</li>
               <li class="card_text">保母車押前與後，保障單車騎行安全</li>
             </ul>
-            <button class="btn card_btn" onclick="reset('bike')">←</button>
+            <button class="btn card_btn" onclick="reset('bike')">← Back</button>
           </div>
           <div class="card_content timeline bike hidden">
             <h2 class="card_title">訓練時程</h2>
@@ -471,7 +543,7 @@
               <li class="card_text">炫豆豆拼圖環島車隊</li>
               <li class="card_text">阿勝單車</li>
             </ul>
-            <button class="btn card_btn" onclick="reset('bike')">←</button>
+            <button class="btn card_btn" onclick="reset('bike')">← Back</button>
           </div>
         </div>
       </li>
@@ -504,7 +576,7 @@
               <p class="card_text">＊兩項壯遊加總每人：<strong>23,257</strong> 元＊</p>
             </div>
             <a class="btn card_btn" href="https://drive.google.com/file/d/1UAWEzoF34GsTsrVRTgZ6D-l8HOaEonab/view" target="_blank">詳細費用明細</a>
-            <button class="btn card_btn" onclick="reset('mountain')">←</button>
+            <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
           </div>
           <div class="card_content safety mountain hidden">
             <h2 class="card_title">降低風險之行程安排</h2>
@@ -522,7 +594,7 @@
               <li class="card_text"><a class="btn card_btn" href="https://hiking.biji.co/index.php?q=trail&act=detail&id=289" target="_blank">合歡主峰 (2小時往返，難易度低)</a></li>
               <li class="card_text"><a class="btn card_btn" href="https://hiking.biji.co/index.php?q=trail&act=detail&id=288" target="_blank">合歡北峰 (3小時往返，難易度低-中)</a></li>
             </ul>
-            <button class="btn card_btn" onclick="reset('mountain')">←</button>
+            <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
           </div>
           <div class="card_content timeline mountain hidden">
             <h2 class="card_title">訓練時程</h2>
@@ -537,7 +609,7 @@
             <ul class="list">
               <li class="card_text">綠野探索登山嚮導彥暉教練</li>
             </ul>
-            <button class="btn card_btn" onclick="reset('mountain')">←</button>
+            <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
           </div>
         </div>
       </li>
