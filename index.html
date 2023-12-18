@@ -150,7 +150,8 @@
       font-weight: 400;
     }
     .card_text strong {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      font-weight: 500;
     }
     .card_text b {
       color: #f6f643;
@@ -334,6 +335,11 @@
       text-decoration: none;
     }
 
+    .equipments a {
+      color: khaki;
+      text-decoration: underline;
+    }
+
     ul.list li {
       list-style: disc;
       margin: 1.25rem 0;
@@ -353,6 +359,10 @@
       list-style: none;
     }
 
+    .equipments ul.list li {
+      list-style: none;
+    }
+
   </style>
   <script>
     function showPrice(cssClass) {
@@ -365,6 +375,17 @@
 
       createPie('.pieID--' + cssClass);
       price.classList.remove('hidden');
+		}
+
+    function showEquipments(cssClass) {
+      let allCards = document.getElementsByClassName('card_content ' + cssClass);
+      let eq = document.getElementsByClassName('card_content equipments ' + cssClass)[0];
+      Array.from(allCards).forEach(card => {
+        if (card.classList.contains('equipments')) return;
+        card.classList.add('hidden');
+      });
+
+      eq.classList.remove('hidden');
 		}
 
     function showSafety(cssClass) {
@@ -397,6 +418,7 @@
 
         if (card.classList.contains('price')) card.classList.add('hidden');
         if (card.classList.contains('safety')) card.classList.add('hidden');
+        if (card.classList.contains('equipments')) card.classList.add('hidden');
         if (card.classList.contains('timeline')) card.classList.add('hidden');
       });
     }
@@ -485,6 +507,7 @@
             <h2 class="card_title">花東五天四夜深度體驗 3/25(一)-3/29(五)</h2>
             <p class="card_text center">大眾運輸深度體驗＋自行車騎乘挑戰</p>
             <button class="btn card_btn" onclick="showPrice('bike')">費用</button>
+            <button class="btn card_btn" onclick="showEquipments('bike')">自購裝備清單</button>
             <button class="btn card_btn" onclick="showSafety('bike')">安全性評估</button>
             <button class="btn card_btn" onclick="showTimeline('bike')">訓練時程與合作單位</button>
           </div>
@@ -505,18 +528,27 @@
                 </ul>
               </div>
               <p class="card_text">總計：<strong>419,556</strong> 元</p>
-              <p class="card_text">平均每人：<strong>8,857</strong> 元（小數點無條件進位）</p>
+              <p class="card_text">平均每人：<strong>8,857</strong> 元（小數點無條件進位，費用均未含參訪門票以及個人裝備）</p>
               <p class="card_text">＊兩項壯遊加總每人：<strong>21,670</strong> 元＊</p>
               <p class="card_text"><i>個人因不可抗力因素取消（如：小孩受傷無法騎行），出發前一週<b>全額退款</b>；出發前三日<b>退百分之50</b>；出發前一日<b>不退費</b>。</i></p>
             </div>
             <a class="btn card_btn" href="https://docs.google.com/spreadsheets/d/18aPUq4MTFWbeH366w7k456W9sTvseyuOYsB17JN3PVM/edit#gid=0" target="_blank">詳細費用明細</a>
             <button class="btn card_btn" onclick="reset('bike')">← Back</button>
           </div>
+          <div class="card_content equipments bike hidden">
+            <h2 class="card_title">自購裝備清單</h2>
+            <ul class="list">
+              <li class="card_text"><b>*必備*</b> 自行車安全帽 <a href="https://decathlon.tw/dsm-334403.html" target="_blank">(參考連結-迪卡儂)</a></li>
+              <li class="card_text"><b>*建議購買*</b> 自行車褲 <a href="https://decathlon.tw/category-cycling-junior" target="_blank">(參考連結-迪卡儂)</a></li>
+              <li class="card_text"><b>*建議購買*</b> 自行車防震手套 <a href="https://decathlon.tw/dsm-328207.html" target="_blank">(參考連結-迪卡儂)</a></li>
+            </ul>
+            <button class="btn card_btn" onclick="reset('bike')">← Back</button>
+          </div>
           <div class="card_content safety bike hidden">
             <h2 class="card_title">降低風險之行程安排</h2>
             <ul class="list">
               <li class="card_text">僅於<b>平日</b>騎行花蓮平坦道路，車速視全體孩子體力而定，時數約在8-12公里，不上山且無陡坡</li>
-              <li class="card_text"><b>宜蘭</b>以及<b>台東</b>會以交通工具前往孩子們安排的景點</li>
+              <li class="card_text"><b>台北-花蓮</b>以及<b>台東當地</b>會以交通工具前往孩子們安排的景點</li>
               <li class="card_text">預計總騎行天數為三天，會視孩子們預計參訪的景點而調整</li>
             </ul>
             <h2 class="card_title">行程預備規劃</h2>
@@ -555,6 +587,7 @@
             <h2 class="card_title">合歡山四峰四天三夜 5/28(二)-5/31(五)</h2>
             <p class="card_text center">石門山、合歡東峰、合歡主峰、合歡北峰</p>
             <button class="btn card_btn" onclick="showPrice('mountain')">費用</button>
+            <button class="btn card_btn" onclick="showEquipments('mountain')">自購裝備清單</button>
             <button class="btn card_btn" onclick="showSafety('mountain')">安全性評估</button>
             <button class="btn card_btn" onclick="showTimeline('mountain')">訓練時程與合作單位</button>
           </div>
@@ -573,11 +606,20 @@
                 </ul>
               </div>
               <p class="card_text">總計：<strong>627,885</strong> 元</p>
-              <p class="card_text">平均每人：<strong>12,814</strong> 元（小數點無條件進位）</p>
+              <p class="card_text">平均每人：<strong>12,814</strong> 元（小數點無條件進位，費用均未含參訪門票以及個人裝備）</p>
               <p class="card_text">＊兩項壯遊加總每人：<strong>21,670</strong> 元＊</p>
               <p class="card_text"><i>退費辦法需依得標廠商規定辦理，待確認後公告</i></p>
             </div>
             <a class="btn card_btn" href="https://docs.google.com/spreadsheets/d/18aPUq4MTFWbeH366w7k456W9sTvseyuOYsB17JN3PVM/edit#gid=0" target="_blank">詳細費用明細</a>
+            <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
+          </div>
+          <div class="card_content equipments mountain hidden">
+            <h2 class="card_title">自購裝備清單</h2>
+            <ul class="list">
+              <li class="card_text"><b>*必備*</b> 硬底登山鞋 <a href="https://decathlon.tw/catalogsearch/result/?q=%E7%99%BB%E5%B1%B1%E9%9E%8B&p=1&filter=gender:%E5%A5%B3%E7%AB%A5,gender:%E7%94%B7%E7%AB%A5,sport:%E7%99%BB%E5%B1%B1.&p=1" target="_blank">(參考連結-迪卡儂)</a></li>
+              <li class="card_text">*非必備* 登山杖 <a href="https://decathlon.tw/dsm-172314.html" target="_blank">(參考連結-迪卡儂)</a></li>
+              <li class="card_text">*非必備* 輕量登山包 <a href="https://decathlon.tw/dsm-339555.html" target="_blank">(參考連結-迪卡儂)</a></li>
+            </ul>
             <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
           </div>
           <div class="card_content safety mountain hidden">
