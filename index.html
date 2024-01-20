@@ -374,8 +374,100 @@
       list-style: none;
     }
 
+    .accordion .accordion-item {
+      border-bottom: 1px solid #ecf9ff;
+    }
+    .accordion .accordion-item button[aria-expanded=true] {
+      border-bottom: 1px solid khaki;
+    }
+    .accordion a {
+      color: #ecf9ff;
+      text-decoration: underline;
+    }
+    .accordion button {
+      position: relative;
+      display: block;
+      text-align: left;
+      width: 100%;
+      padding: 1em 0;
+      color: #ecf9ff;
+      font-size: 1.15rem;
+      font-weight: 400;
+      border: none;
+      background: none;
+      outline: none;
+    }
+    .accordion button:hover, .accordion button:focus {
+      cursor: pointer;
+      color: #ffffff;
+    }
+    .accordion button:hover::after, .accordion button:focus::after {
+      cursor: pointer;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+    }
+    .accordion button .accordion-title {
+      padding: 1em 1.5em 1em 0;
+    }
+    .accordion button .icon {
+      display: inline-block;
+      position: absolute;
+      top: 18px;
+      right: 0;
+      width: 22px;
+      height: 22px;
+      border: 1px solid;
+      border-radius: 22px;
+    }
+    .accordion button .icon::before {
+      display: block;
+      position: absolute;
+      content: "";
+      top: 9px;
+      left: 5px;
+      width: 10px;
+      height: 2px;
+      background: currentColor;
+    }
+    .accordion button .icon::after {
+      display: block;
+      position: absolute;
+      content: "";
+      top: 5px;
+      left: 9px;
+      width: 2px;
+      height: 10px;
+      background: currentColor;
+    }
+    .accordion button[aria-expanded=true] {
+      color: khaki;
+    }
+    .accordion button[aria-expanded=true] .icon::after {
+      width: 0;
+    }
+    .accordion button[aria-expanded=true] + .accordion-content {
+      opacity: 1;
+      max-height: 9em;
+      transition: all 200ms linear;
+      will-change: opacity, max-height;
+    }
+    .accordion .accordion-content {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 200ms linear, max-height 200ms linear;
+      will-change: opacity, max-height;
+    }
+    .accordion .accordion-content p {
+      font-size: 1rem;
+      font-weight: 300;
+      margin: 2em 0;
+    }
+
   </style>
   <script>
+    let items = [];
+
     function showPrice(cssClass) {
       let allCards = document.getElementsByClassName('card_content ' + cssClass);
       let price = document.getElementsByClassName('card_content price ' + cssClass)[0];
@@ -421,6 +513,34 @@
       price.classList.remove('hidden');
 		}
 
+    function showFAQ() {
+      let allCards = document.getElementsByClassName('card_content q');
+      let faq = document.getElementsByClassName('card_content q faq')[0];
+
+      Array.from(allCards).forEach(card => {
+        if (card.classList.contains('faq')) return;
+        card.classList.add('hidden');
+      });
+
+      faq.classList.remove('hidden');
+
+      items = document.querySelectorAll(".accordion button");
+
+      items.forEach(item => item.addEventListener('click', toggleAccordion));
+		}
+
+    function toggleAccordion() {
+      const itemToggle = this.getAttribute('aria-expanded');
+
+      for (i = 0; i < items.length; i++) {
+        items[i].setAttribute('aria-expanded', 'false');
+      }
+
+      if (itemToggle == 'false') {
+        this.setAttribute('aria-expanded', 'true');
+      }
+    }
+
     function reset(cssClass) {
       let allCards = document.getElementsByClassName('card_content ' + cssClass);
 
@@ -431,6 +551,7 @@
         if (card.classList.contains('safety')) card.classList.add('hidden');
         if (card.classList.contains('equipments')) card.classList.add('hidden');
         if (card.classList.contains('timeline')) card.classList.add('hidden');
+        if (card.classList.contains('faq')) card.classList.add('hidden');
       });
     }
 
@@ -680,12 +801,50 @@
       <li class="cards_item">
         <div class="card">
           <div class="card_image"><img src="./Q.jpg"></div>
-          <div class="card_content">
+          <div class="card_content q">
             <h2 class="card_title">✋我有疑問🤔</h2>
-            <p class="card_text">對於壯遊相關疑問，皆歡迎具名或匿名至Slido提問，每週整理完新問題將於班級群組以及臉書社團內回覆：）</p>
+            <p class="card_text">對於壯遊相關疑問，可先參考以下FAQ，或至Slido提問，每週整理完新問題將於班級群組以及臉書社團內回覆：）</p>
             <p class="card_text">另外，也歡迎大家加入我們班的臉書社團，這裡將會是未來壯遊、樂樂棒球、手球比賽，以及畢業相關資訊交流的地方喔！</p>
+            <button class="btn card_btn" onclick="showFAQ()">FAQ</button>
             <a class="btn card_btn" href="https://app.sli.do/event/9ML3cArt7BCES46jm1Cw3T/live/questions" target="_blank">Slido</a>
             <a class="btn card_btn" href="https://www.facebook.com/groups/1041770970581529" target="_blank">和平第四屆楓香班臉書社團</a>
+          </div>
+          <div class="card_content q faq hidden">
+            <h2 class="card_title">FAQ</h2>
+            <div class="accordion">
+              <div class="accordion-item">
+                <button id="accordion-button-2" aria-expanded="false"><span class="accordion-title">是否有需要家長志工協助？</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion-content">
+                  <p>老師希望孩子「從學校出發」和「回到學校」這兩個時間家長可以自由在學校門口歡送以及迎接孩子，但壯遊行程期間請家長不要以「偶遇」的方式出現，可能會影響孩子路程安全以及整體團隊的行程。</p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button id="accordion-button-3" aria-expanded="false"><span class="accordion-title">若因不可抗因素而無法參加部分行程，退費方式？</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion-content">
+                  <p>花東五天四夜：個人因不可抗力因素取消（如：小孩受傷無法騎行），出發前一週全額退款；出發前三日退百分之50；出發前一日不退費。</p>
+                  <p>合歡山四峰四天三夜：退費辦法需依得標廠商規定辦理，待確認後公告</p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button id="accordion-button-4" aria-expanded="false"><span class="accordion-title">單車訓練遇到冬天，如何禦寒？</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion-content">
+                  <p>衣服以洋蔥式穿法，最裡面穿排汗透氣的衣服，中層可加平常會穿的長袖保暖衣，最外層則是防風衣、防雨衣，或保暖外套（不要穿大衣）</p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">單車騎行若遇到下雨，如何因應？</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion-content">
+                  <p>毛毛細雨、小雨都會繼續騎，遇到大雨一直下才做取消騎乘。（例如：下超過30分鐘且不會停）若大雨暫停，教練團隊會觀察雨勢狀況，有變小轉為毛毛細雨（不會馬上全濕的那種）或沒雨了，則繼續騎行。但若雨勢漸大，會先暫時休息，找地方等待雨勢變化；如果雨勢狀況一直未減，則會啟動其他交通方式繼續行程。</p>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">花蓮單車平均一天會騎幾公里？</span><span class="icon" aria-hidden="true"></span></button>
+                <div class="accordion-content">
+                  <p>詳見 <a href="https://drive.google.com/file/d/1UtF4txTDe1iOIs-zky4Bmi6IeyJgm4-t/view?usp=sharing" target="_blank">壯遊說明會簡報</a>，預計三日騎行距離分別為27.5km、51.5km，以及59.4km。</p>
+                </div>
+              </div>
+            </div>
+            <button class="btn card_btn" onclick="reset('q')">← Back</button>
           </div>
         </div>
       </li>
