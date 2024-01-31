@@ -16,6 +16,12 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --duration: 400ms;
+      --ease: cubic-bezier(0.19, 1, 0.22, 1);
+      --bounce: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+
     html {
       background-color: #ecf9ff;
     }
@@ -159,12 +165,19 @@
     .card_text.center {
       text-align: center;
     }
+    .card_text.left {
+      text-align: left;
+    }
     .card_content.hidden {
       overflow: hidden;  /* Hide the element content, while height = 0 */
       height: 0;
       opacity: 0;
       padding: 0;
       transition: height 0ms 400ms, opacity 400ms 0ms;
+    }
+
+    hr {
+      border-top: 1px solid white;
     }
 
     /* Pie */
@@ -464,6 +477,44 @@
       margin: 2em 0;
     }
 
+    .copy-click {
+      position: relative;
+      padding-bottom: 2px;
+      text-decoration: none;
+      color: ffffff;
+      border-bottom: 1px dashed white;
+      cursor: copy;
+      transition: background-color calc(var(--duration) * 2) var(--ease);
+    }
+    .copy-click:after {
+      content: attr(data-tooltip-text);
+      position: absolute;
+      bottom: calc(100%);
+      left: 50%;
+      padding-left: 3.5em;
+      white-space: nowrap;
+      background-color: transparent;
+      pointer-events: none;
+      -webkit-backface-visibility: hidden;
+              backface-visibility: hidden;
+      opacity: 0;
+      color: ffffff;
+      font-size: 0.7em;
+      transform: translate(-50%, 12px);
+      transition: box-shadow calc(var(--duration) / 1.5) var(--bounce), opacity calc(var(--duration) / 1.5) var(--bounce), transform calc(var(--duration) / 1.5) var(--bounce);
+    }
+    .copy-click.is-hovered:after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      transition-timing-function: var(--ease);
+    }
+    .copy-click.is-copied {
+      background-color: rgb(255, 225, 0);
+    }
+    .copy-click.is-copied:after {
+      content: attr(data-tooltip-text-copied);
+    }
+
   </style>
   <script>
     let items = [];
@@ -477,6 +528,7 @@
       });
 
       createPie('.pieID--' + cssClass);
+      injectCopyString(price);
       price.classList.remove('hidden');
 		}
 
@@ -608,7 +660,8 @@
           "#9F4778",
           "#FC7784",
           "#FC77C7",
-          "#77FCAC"
+          "#77FCAC",
+          "#E0CEDA"
         ];
 
       // color = shuffle( color );
@@ -629,6 +682,49 @@
         offset += size;
       }
     }
+
+    function injectCopyString(target) {
+      // copy to clipboard
+      const links = target.querySelectorAll('.copy-click');
+      const cls = {
+        copied: 'is-copied',
+        hover: 'is-hovered'
+      }
+
+      const copyToClipboard = str => {
+        const el = document.createElement('input');
+        str.dataset.copyString ? el.value = str.dataset.copyString : el.value = str.text;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.opacity = 0;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+
+      const clickInteraction = (e) => {
+        e.preventDefault();
+        copyToClipboard(e.target);
+        e.target.classList.add(cls.copied);
+        setTimeout(() => e.target.classList.remove(cls.copied), 1000);
+        setTimeout(() => e.target.classList.remove(cls.hover), 700);
+      }
+
+      Array.from(links).forEach(link => {
+        link.addEventListener('click', e => clickInteraction(e));
+        link.addEventListener('keypress', e => {
+          if (e.keyCode === 13) clickInteraction(e);
+        });
+        link.addEventListener('mouseover', e => e.target.classList.add(cls.hover));
+        link.addEventListener('mouseleave', e => {
+          if (!e.target.classList.contains(cls.copied)) {
+          e.target.classList.remove(cls.hover);
+          }
+        });
+      });
+    }
+
   </script>
 </head>
 <body>
@@ -658,17 +754,20 @@
                   <li><em>導覽體驗門票費</em><span>66300</span></li>
                   <li><em>單車租借</em><span>58300</span></li>
                   <li><em>單車指導費</em><span>40800</span></li>
+                  <li><em>教師補助 60%</em><span>38270</span></li>
                   <li><em>車票(預估)</em><span>33850</span></li>
+                  <li><em>雜支(備用金)</em><span>25375</span></li>
                   <li><em>保母車(貨車)</em><span>21000</span></li>
                   <li><em>補給品(預估)</em><span>10000</span></li>
-                  <li><em>旅平險</em><span>8750</span></li>
+                  <li><em>旅平險＋責任險</em><span>16250</span></li>
                   <li><em>教練車資</em><span>3708</span></li>
                 </ul>
               </div>
-              <p class="card_text">總計：<strong>502,708</strong> 元</p>
-              <p class="card_text">平均每人：<strong>10,055</strong> 元（小數點無條件進位，費用未含個人裝備）</p>
-              <p class="card_text">＊兩項壯遊加總每人：<strong>24,680</strong> 元＊</p>
-              <p class="card_text"><i>個人因不可抗力因素取消（如：小孩受傷無法騎行），出發前一週<b>全額退款</b>；出發前三日<b>退百分之50</b>；出發前一日<b>不退費</b>。</i></p>
+              <p class="card_text">總計：<strong>571,153</strong> 元</p>
+              <p class="card_text">＊實收金額：<strong>12,000</strong> 元＊ <br><i>（平均每人11,424元，小數點無條件進位，費用未含個人裝備）</i></p>
+              <hr>
+              <p class="card_text left"><strong>匯款資訊</strong><br>銀行：台新國際商業銀行天母分行(812)<br>戶名：曾鈺棠<br>帳號： <a href="" class="copy-click" data-copy-string="20171000084005" data-tooltip-text="點選以複製" data-tooltip-text-copied="✔ 已複製">2017-10-0008400-5</a></p>
+              <p class="card_text left"><i>個人因不可抗力因素取消（如：小孩受傷無法騎行），出發前一週<b>全額退款</b>；出發前三日<b>退百分之50</b>；出發前一日<b>不退費</b>。</i></p>
             </div>
             <a class="btn card_btn" href="https://docs.google.com/spreadsheets/d/18aPUq4MTFWbeH366w7k456W9sTvseyuOYsB17JN3PVM/edit#gid=129295471" target="_blank">詳細費用明細</a>
             <button class="btn card_btn" onclick="reset('bike')">← Back</button>
@@ -735,21 +834,25 @@
               <div class="pie-chart">
                 <div class="pie-chart__pie"></div>
                 <ul class="pie-chart__legend">
-                  <li><em>住宿(預估)</em><span>206250</span></li>
-                  <li><em>登山嚮導</em><span>192000</span></li>
+                  <li><em>住宿＋場地租借</em><span>225040</span></li>
+                  <li><em>登山嚮導＋護理師</em><span>192000</span></li>
                   <li><em>遊覽車(中巴)</em><span>152000</span></li>
-                  <li><em>餐食(預估)</em><span>120000</span></li>
-                  <li><em>登山補給品(預估)</em><span>40000</span></li>
-                  <li><em>司機食宿(預估)</em><span>13500</span></li>
-                  <li><em>旅平險</em><span>7000</span></li>
+                  <li><em>餐食</em><span>87000</span></li>
+                  <li><em>教師補助60%</em><span>26784</span></li>
+                  <li><em>登山補給品</em><span>23200</span></li>
+                  <li><em>司機食宿</em><span>24000</span></li>
+                  <li><em>旅平險</em><span>11600</span></li>
+                  <li><em>雜支</em><span>5850</span></li>
                 </ul>
               </div>
-              <p class="card_text">總計：<strong>730,750</strong> 元</p>
-              <p class="card_text">平均每人：<strong>14,615</strong> 元（小數點無條件進位，費用均未含參訪門票以及個人裝備）</p>
-              <p class="card_text">＊兩項壯遊加總每人：<strong>24,679</strong> 元＊</p>
+              <p class="card_text">總計：<strong>736,244</strong> 元</p>
+              <p class="card_text">＊實收金額：<strong>15,000</strong> 元＊ <br><i>（平均每人14,725元，小數點無條件進位，費用未含個人裝備）</i></p>
+              <hr>
+              <p class="card_text left"><strong>匯款資訊</strong><br>銀行：第一銀行建成分行(007)<br>戶名：趙令怡<br>帳號： <a href="" class="copy-click" data-copy-string="12150349626" data-tooltip-text="點選以複製" data-tooltip-text-copied="✔ 已複製">121-50-349626</a></p>
               <p class="card_text"><i>退費辦法需依得標廠商規定辦理，待確認後公告</i></p>
             </div>
             <a class="btn card_btn" href="https://docs.google.com/spreadsheets/d/18aPUq4MTFWbeH366w7k456W9sTvseyuOYsB17JN3PVM/edit#gid=0" target="_blank">詳細費用明細</a>
+            <a class="btn card_btn" href="https://drive.google.com/file/d/1uMkYfhGclnwSO6T3VYA9wIU0z3eoc-GF/view?usp=sharing" target="_blank">廠商報價單</a>
             <button class="btn card_btn" onclick="reset('mountain')">← Back</button>
           </div>
           <div class="card_content equipments mountain hidden">
